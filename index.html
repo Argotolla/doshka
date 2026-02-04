@@ -24,14 +24,13 @@ body {
   font-family: 'Montserrat', Arial, sans-serif;
   background: var(--bg-color);
   color: var(--text-color);
-  line-height: 1.5;
 }
 
 header {
   background: linear-gradient(135deg, #3a4a3f 0%, #a3b18a 100%);
   color: #f2e9d5;
   text-align: center;
-  padding: 30px 20px;
+  padding: 20px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
@@ -82,7 +81,6 @@ p { margin: 0; font-size: 0.9rem; }
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.task:active { cursor: grabbing; }
 .task:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
 
 .task-header {
@@ -118,32 +116,64 @@ p { margin: 0; font-size: 0.9rem; }
   margin-bottom: 5px;
 }
 
-.add-task {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-top: 10px;
+button#createTaskBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--main-dark);
+  color: var(--bg-color);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: background 0.3s;
+}
+button#createTaskBtn:hover { background: var(--accent); }
+
+/* Модальне вікно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
 }
 
-.add-task input, .add-task select {
-  padding: 5px 8px;
+.modal-content {
+  background: var(--bg-color);
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-content input, .modal-content select {
+  padding: 8px;
   border-radius: 8px;
   border: 1px solid var(--main-dark);
   width: 100%;
   box-sizing: border-box;
 }
 
-.add-task button {
-  padding: 5px 10px;
-  border-radius: 8px;
+.modal-content button {
+  padding: 10px;
   border: none;
+  border-radius: 10px;
   background: var(--main-dark);
   color: var(--bg-color);
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: bold;
 }
-
-.add-task button:hover { background: var(--accent); }
+.modal-content button:hover { background: var(--accent); }
 
 @media(max-width:800px) {
   .board { flex-direction: column; align-items: center; }
@@ -155,113 +185,33 @@ p { margin: 0; font-size: 0.9rem; }
 
 <header>
   <h1>Kanban поліграфії</h1>
-  <p>Задачі для відділів з пріоритетом та відповідальним</p>
+  <p>Задачі з пріоритетом та відповідальними</p>
 </header>
 
 <div class="board">
   <div class="column" id="commercial">
     <h2>Комерційний відділ</h2>
     <div class="tasks"></div>
-    <div class="add-task">
-      <input type="text" placeholder="Нова задача">
-      <select>
-        <option value="high">Високий</option>
-        <option value="medium">Середній</option>
-        <option value="low">Низький</option>
-      </select>
-      <select>
-        <option value="commercial">Комерційний</option>
-        <option value="warehouse">Склад</option>
-        <option value="binding">Палітурка</option>
-        <option value="logistics">Логістика</option>
-        <option value="printing">Друкарня</option>
-      </select>
-      <button>Додати</button>
-    </div>
   </div>
 
   <div class="column" id="warehouse">
     <h2>Склад</h2>
     <div class="tasks"></div>
-    <div class="add-task">
-      <input type="text" placeholder="Нова задача">
-      <select>
-        <option value="high">Високий</option>
-        <option value="medium">Середній</option>
-        <option value="low">Низький</option>
-      </select>
-      <select>
-        <option value="commercial">Комерційний</option>
-        <option value="warehouse">Склад</option>
-        <option value="binding">Палітурка</option>
-        <option value="logistics">Логістика</option>
-        <option value="printing">Друкарня</option>
-      </select>
-      <button>Додати</button>
-    </div>
   </div>
 
   <div class="column" id="binding">
     <h2>Палітурний цех</h2>
     <div class="tasks"></div>
-    <div class="add-task">
-      <input type="text" placeholder="Нова задача">
-      <select>
-        <option value="high">Високий</option>
-        <option value="medium">Середній</option>
-        <option value="low">Низький</option>
-      </select>
-      <select>
-        <option value="commercial">Комерційний</option>
-        <option value="warehouse">Склад</option>
-        <option value="binding">Палітурка</option>
-        <option value="logistics">Логістика</option>
-        <option value="printing">Друкарня</option>
-      </select>
-      <button>Додати</button>
-    </div>
   </div>
 
   <div class="column" id="logistics">
     <h2>Логістика</h2>
     <div class="tasks"></div>
-    <div class="add-task">
-      <input type="text" placeholder="Нова задача">
-      <select>
-        <option value="high">Високий</option>
-        <option value="medium">Середній</option>
-        <option value="low">Низький</option>
-      </select>
-      <select>
-        <option value="commercial">Комерційний</option>
-        <option value="warehouse">Склад</option>
-        <option value="binding">Палітурка</option>
-        <option value="logistics">Логістика</option>
-        <option value="printing">Друкарня</option>
-      </select>
-      <button>Додати</button>
-    </div>
   </div>
 
   <div class="column" id="printing">
     <h2>Друкарський цех</h2>
     <div class="tasks"></div>
-    <div class="add-task">
-      <input type="text" placeholder="Нова задача">
-      <select>
-        <option value="high">Високий</option>
-        <option value="medium">Середній</option>
-        <option value="low">Низький</option>
-      </select>
-      <select>
-        <option value="commercial">Комерційний</option>
-        <option value="warehouse">Склад</option>
-        <option value="binding">Палітурка</option>
-        <option value="logistics">Логістика</option>
-        <option value="printing">Друкарня</option>
-      </select>
-      <button>Додати</button>
-    </div>
   </div>
 
   <div class="column" id="done">
@@ -270,9 +220,42 @@ p { margin: 0; font-size: 0.9rem; }
   </div>
 </div>
 
+<button id="createTaskBtn">Створити задачу</button>
+
+<!-- Модальне вікно -->
+<div class="modal" id="taskModal">
+  <div class="modal-content">
+    <h3>Нова задача</h3>
+    <input type="text" id="taskText" placeholder="Назва задачі">
+    <select id="taskPriority">
+      <option value="high">Високий</option>
+      <option value="medium">Середній</option>
+      <option value="low">Низький</option>
+    </select>
+    <select id="taskAssigned">
+      <option value="Olena">Олена (Вожата)</option>
+      <option value="Ivan">Іван (Комерційний)</option>
+      <option value="Maria">Марія (Склад)</option>
+      <option value="Petro">Петро (Палітурка)</option>
+      <option value="Sofia">Софія (Логістика)</option>
+      <option value="Dmytro">Дмитро (Друкарня)</option>
+    </select>
+    <select id="taskColumn">
+      <option value="commercial">Комерційний відділ</option>
+      <option value="warehouse">Склад</option>
+      <option value="binding">Палітурний цех</option>
+      <option value="logistics">Логістика</option>
+      <option value="printing">Друкарський цех</option>
+    </select>
+    <button id="addTaskConfirm">Додати задачу</button>
+    <button id="closeModal">Скасувати</button>
+  </div>
+</div>
+
 <script>
 let draggedTask = null;
 
+// створення задачі
 function createTask(text, priority, assigned) {
   const task = document.createElement('div');
   task.className = 'task';
@@ -301,7 +284,7 @@ function createTask(text, priority, assigned) {
   task.addEventListener('dragstart', () => draggedTask = task);
   task.addEventListener('dragend', () => { draggedTask = null; saveBoard(); });
 
-  // Подвійний клік для позначення як виконано
+  // подвійний клік для переміщення в "Виконано"
   task.addEventListener('dblclick', () => {
     document.querySelector('#done .tasks').appendChild(task);
     saveBoard();
@@ -310,32 +293,7 @@ function createTask(text, priority, assigned) {
   return task;
 }
 
-// додавання задач
-document.querySelectorAll('.add-task').forEach(container => {
-  const input = container.querySelector('input');
-  const prioritySelect = container.querySelectorAll('select')[0];
-  const assignedSelect = container.querySelectorAll('select')[1];
-  const button = container.querySelector('button');
-  const tasksDiv = container.parentElement.querySelector('.tasks');
-
-  button.addEventListener('click', () => {
-    if(input.value.trim() !== '') {
-      tasksDiv.appendChild(createTask(input.value.trim(), prioritySelect.value, assignedSelect.value));
-      input.value = '';
-      saveBoard();
-    }
-  });
-
-  input.addEventListener('keypress', (e) => {
-    if(e.key === 'Enter' && input.value.trim() !== '') {
-      tasksDiv.appendChild(createTask(input.value.trim(), prioritySelect.value, assignedSelect.value));
-      input.value = '';
-      saveBoard();
-    }
-  });
-});
-
-// drag & drop
+// Drag & Drop
 document.querySelectorAll('.tasks').forEach(tasksDiv => {
   tasksDiv.addEventListener('dragover', e => e.preventDefault());
   tasksDiv.addEventListener('drop', e => {
@@ -345,7 +303,26 @@ document.querySelectorAll('.tasks').forEach(tasksDiv => {
   });
 });
 
-// збереження та завантаження
+// Модальне вікно
+const modal = document.getElementById('taskModal');
+document.getElementById('createTaskBtn').onclick = () => modal.style.display = 'flex';
+document.getElementById('closeModal').onclick = () => modal.style.display = 'none';
+
+document.getElementById('addTaskConfirm').onclick = () => {
+  const text = document.getElementById('taskText').value.trim();
+  const priority = document.getElementById('taskPriority').value;
+  const assigned = document.getElementById('taskAssigned').value;
+  const column = document.getElementById('taskColumn').value;
+
+  if(text) {
+    document.getElementById(column).querySelector('.tasks').appendChild(createTask(text, priority, assigned));
+    document.getElementById('taskText').value = '';
+    modal.style.display = 'none';
+    saveBoard();
+  }
+};
+
+// Збереження та завантаження
 function saveBoard() {
   const board = {};
   document.querySelectorAll('.column').forEach(col => {

@@ -1,3 +1,195 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kanban поліграфії</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --main-dark: #3a4a3f;
+    --main-light: #a3b18a;
+    --accent: #7c8b70;
+    --bg-color: #f2e9d5;
+    --text-color: #3a3a3a;
+    --column-width: 250px;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.5;
+  }
+
+  header {
+    background: linear-gradient(135deg, #3a4a3f 0%, #a3b18a 100%);
+    color: #f2e9d5;
+    text-align: center;
+    padding: 30px 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  header img {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    border-radius: 50%;
+    border: 3px solid #f2e9d5;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  }
+
+  h1 { margin: 0 0 10px; }
+  p { margin: 0; font-size: 0.9rem; }
+
+  .board {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    overflow-x: auto;
+  }
+
+  .column {
+    background: var(--main-light);
+    border-radius: 15px;
+    padding: 15px;
+    width: var(--column-width);
+    min-width: var(--column-width);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .column h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--main-dark);
+  }
+
+  .tasks {
+    flex-grow: 1;
+    min-height: 50px;
+  }
+
+  .task {
+    background: linear-gradient(145deg, #a3b18a, #7c8b70);
+    color: #f2e9d5;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    cursor: grab;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .task:active { cursor: grabbing; }
+
+  .task:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+
+  .delete-btn {
+    background: transparent;
+    border: none;
+    color: #f2e9d5;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .add-task {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .add-task input {
+    flex-grow: 1;
+    padding: 5px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--main-dark);
+  }
+
+  .add-task button {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: none;
+    background: var(--main-dark);
+    color: var(--bg-color);
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .add-task button:hover { background: var(--accent); }
+
+  @media(max-width:800px) {
+    .board { flex-direction: column; align-items: center; }
+    .column { width: 90%; max-width: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D1%83.png" alt="Логотип">
+  <h1>Kanban поліграфії</h1>
+  <p>Задачі для відділів: комерційний, склад, палітурка, логістика, друкарня</p>
+</header>
+
+<div class="board">
+  <div class="column" id="commercial">
+    <h2>Комерційний відділ</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="warehouse">
+    <h2>Склад</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="binding">
+    <h2>Палітурний цех</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="logistics">
+    <h2>Логістика</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="printing">
+    <h2>Друкарський цех</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+</div>
+
 <script>
 let draggedTask = null;
 
@@ -7,11 +199,9 @@ function createTask(text) {
   task.className = 'task';
   task.draggable = true;
 
-  // текст
   const textNode = document.createTextNode(text);
   task.appendChild(textNode);
 
-  // кнопка видалення
   const del = document.createElement('button');
   del.className = 'delete-btn';
   del.textContent = '×';
@@ -22,7 +212,6 @@ function createTask(text) {
   };
   task.appendChild(del);
 
-  // drag events
   task.addEventListener('dragstart', () => draggedTask = task);
   task.addEventListener('dragend', () => {
     draggedTask = null;
@@ -55,20 +244,17 @@ document.querySelectorAll('.add-task').forEach(container => {
   });
 });
 
-// drag & drop для всіх колонок
+// drag & drop для колонок
 document.querySelectorAll('.tasks').forEach(tasksDiv => {
   tasksDiv.addEventListener('dragover', e => e.preventDefault());
-
   tasksDiv.addEventListener('drop', e => {
     e.preventDefault();
-    if(draggedTask) {
-      tasksDiv.appendChild(draggedTask);
-      saveBoard();
-    }
+    if(draggedTask) tasksDiv.appendChild(draggedTask);
+    saveBoard();
   });
 });
 
-// збереження у LocalStorage
+// збереження та завантаження
 function saveBoard() {
   const board = {};
   document.querySelectorAll('.column').forEach(col => {
@@ -79,18 +265,18 @@ function saveBoard() {
   localStorage.setItem('kanbanBoard', JSON.stringify(board));
 }
 
-// завантаження з LocalStorage
 function loadBoard() {
   const board = JSON.parse(localStorage.getItem('kanbanBoard') || '{}');
   document.querySelectorAll('.column').forEach(col => {
-    const colId = col.id;
     const tasksDiv = col.querySelector('.tasks');
     tasksDiv.innerHTML = '';
-    if(board[colId]) {
-      board[colId].forEach(text => tasksDiv.appendChild(createTask(text)));
-    }
+    const tasks = board[col.id] || [];
+    tasks.forEach(t => tasksDiv.appendChild(createTask(t)));
   });
 }
 
 loadBoard();
 </script>
+
+</body>
+</html>

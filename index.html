@@ -6,141 +6,156 @@
 <title>Kanban поліграфії</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --main-dark: #3a4a3f;
-    --main-light: #a3b18a;
-    --accent: #7c8b70;
-    --bg-color: #f2e9d5;
-    --text-color: #3a3a3a;
-    --column-width: 250px;
-  }
+:root {
+  --main-dark: #3a4a3f;
+  --main-light: #a3b18a;
+  --accent: #7c8b70;
+  --bg-color: #f2e9d5;
+  --text-color: #3a3a3a;
+  --column-width: 250px;
 
-  body {
-    margin: 0;
-    font-family: 'Montserrat', Arial, sans-serif;
-    background: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.5;
-  }
+  --priority-high: #e63946;
+  --priority-medium: #f4a261;
+  --priority-low: #2a9d8f;
+}
 
-  header {
-    background: linear-gradient(135deg, #3a4a3f 0%, #a3b18a 100%);
-    color: #f2e9d5;
-    text-align: center;
-    padding: 30px 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    position: relative;
-  }
+body {
+  margin: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+}
 
-  header img {
-    width: 80px;
-    height: 80px;
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    border-radius: 50%;
-    border: 3px solid #f2e9d5;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-  }
+header {
+  background: linear-gradient(135deg, #3a4a3f 0%, #a3b18a 100%);
+  color: #f2e9d5;
+  text-align: center;
+  padding: 30px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
 
-  h1 { margin: 0 0 10px; }
-  p { margin: 0; font-size: 0.9rem; }
+h1 { margin: 0 0 10px; }
+p { margin: 0; font-size: 0.9rem; }
 
-  .board {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    overflow-x: auto;
-  }
+.board {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: auto;
+}
 
-  .column {
-    background: var(--main-light);
-    border-radius: 15px;
-    padding: 15px;
-    width: var(--column-width);
-    min-width: var(--column-width);
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-  }
+.column {
+  background: var(--main-light);
+  border-radius: 15px;
+  padding: 15px;
+  width: var(--column-width);
+  min-width: var(--column-width);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
 
-  .column h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    text-align: center;
-    color: var(--main-dark);
-  }
+.column h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--main-dark);
+}
 
-  .tasks {
-    flex-grow: 1;
-    min-height: 50px;
-  }
+.tasks {
+  flex-grow: 1;
+  min-height: 50px;
+}
 
-  .task {
-    background: linear-gradient(145deg, #a3b18a, #7c8b70);
-    color: #f2e9d5;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    cursor: grab;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+.task {
+  background: linear-gradient(145deg, #a3b18a, #7c8b70);
+  color: #f2e9d5;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
 
-  .task:active { cursor: grabbing; }
+.task:active { cursor: grabbing; }
+.task:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
 
-  .task:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .delete-btn {
-    background: transparent;
-    border: none;
-    color: #f2e9d5;
-    font-size: 1.2rem;
-    cursor: pointer;
-    font-weight: bold;
-  }
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #f2e9d5;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-  .add-task {
-    display: flex;
-    gap: 5px;
-    margin-top: 10px;
-  }
+.priority {
+  font-weight: bold;
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
 
-  .add-task input {
-    flex-grow: 1;
-    padding: 5px 8px;
-    border-radius: 8px;
-    border: 1px solid var(--main-dark);
-  }
+.priority-high { background: var(--priority-high); }
+.priority-medium { background: var(--priority-medium); }
+.priority-low { background: var(--priority-low); }
 
-  .add-task button {
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: none;
-    background: var(--main-dark);
-    color: var(--bg-color);
-    cursor: pointer;
-    transition: background 0.3s;
-  }
+.assigned {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-bottom: 5px;
+}
 
-  .add-task button:hover { background: var(--accent); }
+.add-task {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
 
-  @media(max-width:800px) {
-    .board { flex-direction: column; align-items: center; }
-    .column { width: 90%; max-width: 400px; }
-  }
+.add-task input, .add-task select {
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--main-dark);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-task button {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--main-dark);
+  color: var(--bg-color);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-task button:hover { background: var(--accent); }
+
+@media(max-width:800px) {
+  .board { flex-direction: column; align-items: center; }
+  .column { width: 90%; max-width: 400px; }
+}
 </style>
 </head>
 <body>
 
 <header>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D1%83.png" alt="Логотип">
   <h1>Kanban поліграфії</h1>
-  <p>Задачі для відділів: комерційний, склад, палітурка, логістика, друкарня</p>
+  <p>Задачі для відділів з пріоритетом та відповідальним</p>
 </header>
 
 <div class="board">
@@ -149,6 +164,18 @@
     <div class="tasks"></div>
     <div class="add-task">
       <input type="text" placeholder="Нова задача">
+      <select>
+        <option value="high">Високий</option>
+        <option value="medium">Середній</option>
+        <option value="low">Низький</option>
+      </select>
+      <select>
+        <option value="commercial">Комерційний</option>
+        <option value="warehouse">Склад</option>
+        <option value="binding">Палітурка</option>
+        <option value="logistics">Логістика</option>
+        <option value="printing">Друкарня</option>
+      </select>
       <button>Додати</button>
     </div>
   </div>
@@ -158,6 +185,18 @@
     <div class="tasks"></div>
     <div class="add-task">
       <input type="text" placeholder="Нова задача">
+      <select>
+        <option value="high">Високий</option>
+        <option value="medium">Середній</option>
+        <option value="low">Низький</option>
+      </select>
+      <select>
+        <option value="commercial">Комерційний</option>
+        <option value="warehouse">Склад</option>
+        <option value="binding">Палітурка</option>
+        <option value="logistics">Логістика</option>
+        <option value="printing">Друкарня</option>
+      </select>
       <button>Додати</button>
     </div>
   </div>
@@ -167,6 +206,18 @@
     <div class="tasks"></div>
     <div class="add-task">
       <input type="text" placeholder="Нова задача">
+      <select>
+        <option value="high">Високий</option>
+        <option value="medium">Середній</option>
+        <option value="low">Низький</option>
+      </select>
+      <select>
+        <option value="commercial">Комерційний</option>
+        <option value="warehouse">Склад</option>
+        <option value="binding">Палітурка</option>
+        <option value="logistics">Логістика</option>
+        <option value="printing">Друкарня</option>
+      </select>
       <button>Додати</button>
     </div>
   </div>
@@ -176,6 +227,18 @@
     <div class="tasks"></div>
     <div class="add-task">
       <input type="text" placeholder="Нова задача">
+      <select>
+        <option value="high">Високий</option>
+        <option value="medium">Середній</option>
+        <option value="low">Низький</option>
+      </select>
+      <select>
+        <option value="commercial">Комерційний</option>
+        <option value="warehouse">Склад</option>
+        <option value="binding">Палітурка</option>
+        <option value="logistics">Логістика</option>
+        <option value="printing">Друкарня</option>
+      </select>
       <button>Додати</button>
     </div>
   </div>
@@ -185,36 +248,62 @@
     <div class="tasks"></div>
     <div class="add-task">
       <input type="text" placeholder="Нова задача">
+      <select>
+        <option value="high">Високий</option>
+        <option value="medium">Середній</option>
+        <option value="low">Низький</option>
+      </select>
+      <select>
+        <option value="commercial">Комерційний</option>
+        <option value="warehouse">Склад</option>
+        <option value="binding">Палітурка</option>
+        <option value="logistics">Логістика</option>
+        <option value="printing">Друкарня</option>
+      </select>
       <button>Додати</button>
     </div>
+  </div>
+
+  <div class="column" id="done">
+    <h2>Виконано</h2>
+    <div class="tasks"></div>
   </div>
 </div>
 
 <script>
 let draggedTask = null;
 
-// створення задачі
-function createTask(text) {
+function createTask(text, priority, assigned) {
   const task = document.createElement('div');
   task.className = 'task';
   task.draggable = true;
 
-  const textNode = document.createTextNode(text);
-  task.appendChild(textNode);
+  const priorityDiv = document.createElement('div');
+  priorityDiv.className = 'priority priority-' + priority;
+  priorityDiv.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
+  task.appendChild(priorityDiv);
+
+  const assignedDiv = document.createElement('div');
+  assignedDiv.className = 'assigned';
+  assignedDiv.textContent = 'Відповідальний: ' + assigned;
+  task.appendChild(assignedDiv);
+
+  const textDiv = document.createElement('div');
+  textDiv.textContent = text;
+  task.appendChild(textDiv);
 
   const del = document.createElement('button');
   del.className = 'delete-btn';
   del.textContent = '×';
-  del.onclick = (e) => {
-    e.stopPropagation();
-    task.remove();
-    saveBoard();
-  };
+  del.onclick = (e) => { e.stopPropagation(); task.remove(); saveBoard(); };
   task.appendChild(del);
 
   task.addEventListener('dragstart', () => draggedTask = task);
-  task.addEventListener('dragend', () => {
-    draggedTask = null;
+  task.addEventListener('dragend', () => { draggedTask = null; saveBoard(); });
+
+  // Подвійний клік для позначення як виконано
+  task.addEventListener('dblclick', () => {
+    document.querySelector('#done .tasks').appendChild(task);
     saveBoard();
   });
 
@@ -224,12 +313,14 @@ function createTask(text) {
 // додавання задач
 document.querySelectorAll('.add-task').forEach(container => {
   const input = container.querySelector('input');
+  const prioritySelect = container.querySelectorAll('select')[0];
+  const assignedSelect = container.querySelectorAll('select')[1];
   const button = container.querySelector('button');
   const tasksDiv = container.parentElement.querySelector('.tasks');
 
   button.addEventListener('click', () => {
     if(input.value.trim() !== '') {
-      tasksDiv.appendChild(createTask(input.value.trim()));
+      tasksDiv.appendChild(createTask(input.value.trim(), prioritySelect.value, assignedSelect.value));
       input.value = '';
       saveBoard();
     }
@@ -237,14 +328,14 @@ document.querySelectorAll('.add-task').forEach(container => {
 
   input.addEventListener('keypress', (e) => {
     if(e.key === 'Enter' && input.value.trim() !== '') {
-      tasksDiv.appendChild(createTask(input.value.trim()));
+      tasksDiv.appendChild(createTask(input.value.trim(), prioritySelect.value, assignedSelect.value));
       input.value = '';
       saveBoard();
     }
   });
 });
 
-// drag & drop для колонок
+// drag & drop
 document.querySelectorAll('.tasks').forEach(tasksDiv => {
   tasksDiv.addEventListener('dragover', e => e.preventDefault());
   tasksDiv.addEventListener('drop', e => {
@@ -259,7 +350,11 @@ function saveBoard() {
   const board = {};
   document.querySelectorAll('.column').forEach(col => {
     const colId = col.id;
-    const tasks = Array.from(col.querySelectorAll('.task')).map(t => t.firstChild.textContent);
+    const tasks = Array.from(col.querySelectorAll('.task')).map(t => ({
+      text: t.children[2].textContent,
+      priority: t.children[0].textContent.toLowerCase(),
+      assigned: t.children[1].textContent.replace('Відповідальний: ', '')
+    }));
     board[colId] = tasks;
   });
   localStorage.setItem('kanbanBoard', JSON.stringify(board));
@@ -271,7 +366,7 @@ function loadBoard() {
     const tasksDiv = col.querySelector('.tasks');
     tasksDiv.innerHTML = '';
     const tasks = board[col.id] || [];
-    tasks.forEach(t => tasksDiv.appendChild(createTask(t)));
+    tasks.forEach(t => tasksDiv.appendChild(createTask(t.text, t.priority, t.assigned)));
   });
 }
 

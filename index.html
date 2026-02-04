@@ -37,11 +37,17 @@ header {
 h1 { margin: 0 0 10px; }
 p { margin: 0; font-size: 0.9rem; }
 
-.board {
+.board-wrapper {
   display: flex;
   gap: 20px;
   padding: 20px;
   overflow-x: auto;
+}
+
+/* Основні колонки */
+.board {
+  display: flex;
+  gap: 20px;
 }
 
 .column {
@@ -175,9 +181,30 @@ button#createTaskBtn:hover { background: var(--accent); }
 }
 .modal-content button:hover { background: var(--accent); }
 
+/* Колонка "Виконано" */
+.done-column {
+  width: 200px;
+  background: #8d99ae;
+  color: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.done-column h2 { text-align: center; font-size: 1rem; }
+
+.done-column .tasks .task {
+  padding: 5px;
+  margin-bottom: 5px;
+  font-size: 0.75rem;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* RESPONSIVE */
 @media(max-width:800px) {
-  .board { flex-direction: column; align-items: center; }
-  .column { width: 90%; max-width: 400px; }
+  .board-wrapper { flex-direction: column; align-items: center; }
+  .column, .done-column { width: 90%; max-width: 400px; }
 }
 </style>
 </head>
@@ -188,33 +215,35 @@ button#createTaskBtn:hover { background: var(--accent); }
   <p>Задачі з пріоритетом та відповідальними</p>
 </header>
 
-<div class="board">
-  <div class="column" id="commercial">
-    <h2>Комерційний відділ</h2>
-    <div class="tasks"></div>
+<div class="board-wrapper">
+  <div class="board">
+    <div class="column" id="commercial">
+      <h2>Комерційний відділ</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="column" id="warehouse">
+      <h2>Склад</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="column" id="binding">
+      <h2>Палітурний цех</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="column" id="logistics">
+      <h2>Логістика</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="column" id="printing">
+      <h2>Друкарський цех</h2>
+      <div class="tasks"></div>
+    </div>
   </div>
 
-  <div class="column" id="warehouse">
-    <h2>Склад</h2>
-    <div class="tasks"></div>
-  </div>
-
-  <div class="column" id="binding">
-    <h2>Палітурний цех</h2>
-    <div class="tasks"></div>
-  </div>
-
-  <div class="column" id="logistics">
-    <h2>Логістика</h2>
-    <div class="tasks"></div>
-  </div>
-
-  <div class="column" id="printing">
-    <h2>Друкарський цех</h2>
-    <div class="tasks"></div>
-  </div>
-
-  <div class="column" id="done">
+  <div class="done-column" id="done">
     <h2>Виконано</h2>
     <div class="tasks"></div>
   </div>
@@ -255,7 +284,6 @@ button#createTaskBtn:hover { background: var(--accent); }
 <script>
 let draggedTask = null;
 
-// створення задачі
 function createTask(text, priority, assigned) {
   const task = document.createElement('div');
   task.className = 'task';
@@ -284,7 +312,7 @@ function createTask(text, priority, assigned) {
   task.addEventListener('dragstart', () => draggedTask = task);
   task.addEventListener('dragend', () => { draggedTask = null; saveBoard(); });
 
-  // подвійний клік для переміщення в "Виконано"
+  // Двічі клік для "Виконано"
   task.addEventListener('dblclick', () => {
     document.querySelector('#done .tasks').appendChild(task);
     saveBoard();
@@ -325,7 +353,7 @@ document.getElementById('addTaskConfirm').onclick = () => {
 // Збереження та завантаження
 function saveBoard() {
   const board = {};
-  document.querySelectorAll('.column').forEach(col => {
+  document.querySelectorAll('.column, .done-column').forEach(col => {
     const colId = col.id;
     const tasks = Array.from(col.querySelectorAll('.task')).map(t => ({
       text: t.children[2].textContent,
@@ -339,7 +367,7 @@ function saveBoard() {
 
 function loadBoard() {
   const board = JSON.parse(localStorage.getItem('kanbanBoard') || '{}');
-  document.querySelectorAll('.column').forEach(col => {
+  document.querySelectorAll('.column, .done-column').forEach(col => {
     const tasksDiv = col.querySelector('.tasks');
     tasksDiv.innerHTML = '';
     const tasks = board[col.id] || [];

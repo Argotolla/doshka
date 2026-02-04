@@ -1,40 +1,196 @@
-<style>
-  .task {
-    background: var(--card);
-    padding: 10px 10px 10px 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: grab;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    position: relative;
-  }
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поліграфічний Kanban</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f2e9d5;
+      --card: #a3b18a;
+      --card-dark: #7c8b70;
+      --text: #3a3a3a;
+      --accent: #3a4a3f;
+    }
 
-  .task:active {
-    cursor: grabbing;
-  }
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
 
-  .delete-btn {
-    position: absolute;
-    top: 5px;
-    right: 7px;
-    background: #e63946;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 12px;
-    line-height: 18px;
-    text-align: center;
-    cursor: pointer;
-  }
+    header {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--card) 100%);
+      color: #f2e9d5;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
 
-  .delete-btn:hover {
-    background: #c72c36;
-  }
-</style>
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 1rem;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .column {
+      background: var(--card-dark);
+      padding: 15px;
+      border-radius: 10px;
+      width: 220px;
+      min-height: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .column h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .task {
+      background: var(--card);
+      padding: 10px 10px 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: grab;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .task:active {
+      cursor: grabbing;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 5px;
+      right: 7px;
+      background: #e63946;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      line-height: 18px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background: #c72c36;
+    }
+
+    .add-task {
+      margin-top: auto;
+      display: flex;
+      gap: 5px;
+    }
+
+    .add-task input {
+      flex: 1;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .add-task button {
+      padding: 5px 10px;
+      border: none;
+      background: var(--accent);
+      color: #f2e9d5;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .add-task button:hover {
+      background: var(--card-dark);
+    }
+
+    @media (max-width: 800px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Поліграфічний Kanban</h1>
+  <p>Керуйте задачами для відділів друкарні</p>
+</header>
+
+<main>
+  <div class="column" id="commercial">
+    <h2>Комерційний відділ</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="warehouse">
+    <h2>Склад</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="binding">
+    <h2>Палітурний цех</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="logistics">
+    <h2>Логістика</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+
+  <div class="column" id="printing">
+    <h2>Друкарський цех</h2>
+    <div class="tasks"></div>
+    <div class="add-task">
+      <input type="text" placeholder="Нова задача">
+      <button>Додати</button>
+    </div>
+  </div>
+</main>
 
 <script>
+  let draggedTask = null;
+
   function createTask(text) {
     const task = document.createElement('div');
     task.className = 'task';
@@ -46,13 +202,13 @@
     del.className = 'delete-btn';
     del.textContent = '×';
     del.onclick = (e) => {
-      e.stopPropagation(); // щоб не заважало drag
+      e.stopPropagation();
       task.remove();
       saveBoard();
     };
     task.appendChild(del);
 
-    // Drag & Drop
+    // drag events
     task.addEventListener('dragstart', () => draggedTask = task);
     task.addEventListener('dragend', () => {
       draggedTask = null;
@@ -61,4 +217,67 @@
 
     return task;
   }
+
+  // додавання задач
+  document.querySelectorAll('.add-task').forEach(container => {
+    const input = container.querySelector('input');
+    const button = container.querySelector('button');
+    const tasksDiv = container.parentElement.querySelector('.tasks');
+
+    button.addEventListener('click', () => {
+      if(input.value.trim() !== '') {
+        tasksDiv.appendChild(createTask(input.value.trim()));
+        input.value = '';
+        saveBoard();
+      }
+    });
+
+    input.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter' && input.value.trim() !== '') {
+        tasksDiv.appendChild(createTask(input.value.trim()));
+        input.value = '';
+        saveBoard();
+      }
+    });
+  });
+
+  // drag & drop по колонках
+  document.querySelectorAll('.tasks').forEach(tasksDiv => {
+    tasksDiv.addEventListener('dragover', e => e.preventDefault());
+    tasksDiv.addEventListener('drop', e => {
+      if(draggedTask) {
+        tasksDiv.appendChild(draggedTask);
+        saveBoard();
+      }
+    });
+  });
+
+  // збереження у LocalStorage
+  function saveBoard() {
+    const board = {};
+    document.querySelectorAll('.column').forEach(col => {
+      const colId = col.id;
+      const tasks = Array.from(col.querySelectorAll('.task')).map(t => t.firstChild.textContent);
+      board[colId] = tasks;
+    });
+    localStorage.setItem('kanbanBoard', JSON.stringify(board));
+  }
+
+  // завантаження з LocalStorage
+  function loadBoard() {
+    const board = JSON.parse(localStorage.getItem('kanbanBoard') || '{}');
+    document.querySelectorAll('.column').forEach(col => {
+      const colId = col.id;
+      const tasksDiv = col.querySelector('.tasks');
+      tasksDiv.innerHTML = '';
+      if(board[colId]) {
+        board[colId].forEach(text => tasksDiv.appendChild(createTask(text)));
+      }
+    });
+  }
+
+  loadBoard();
 </script>
+
+</body>
+</html>
